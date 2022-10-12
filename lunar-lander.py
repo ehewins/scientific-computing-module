@@ -5,14 +5,17 @@ from matplotlib.path import Path
 
 # Functions used by the program
 def closeCallback(event):
-    plt.close('all') # Close all open figure windows
+    """Function used to close the figure window and exit the program, called via a button widget"""
+    plt.close('all')
     exit()
 
 def thrustCallback(val):
+    """Function used to set the value of `thrust`, called via a slider widget."""
     global thrust
     thrust = val
 
 def drawLander(x, y):
+    """When supplied with a pair of xy coordinates, this function will draw the lander at the desired location."""
     verts = [
         (x-3.,y),
         (x-1.5,y+2),
@@ -54,14 +57,14 @@ t = 0 # setting the starting time of the simulstion to t=0 seconds
 x = h0 # setting initial position of the lander
 v = 0 # setting the initial speed of the lander in m/s
 fuel = 100 # starting fuel
-thrust = 0
+thrust = 0 # the thruster is switched off at the start of the game
 
 # Main logic loop
 while x > 0:
     if fuel > 0:
         a = g + thrust
     else:
-        a = g
+        a = g # If your're out of fuel, the thruster should stop working
     dx = v*dt
     dv = a*dt
     x += dx
