@@ -20,7 +20,8 @@ def task2():
     uniform_rand = lowerlim + V*np.random.random_sample(N)
     I = V/N * np.sum(f(uniform_rand))
     trueI,_ = integrate.quad(f, lowerlim, upperlim)
-    print("With a ransom sample of size {0:d}, the integral evaluated using Monte Carlo methods gives\nI = {1:.4f}, and when calculated numerically, gives I = {2:.4f}.".format(N, I, trueI))
+    percentdiff = 100*np.abs(I-trueI)/trueI
+    print("With a ransom sample of size {0:d}, the integral evaluated using Monte Carlo methods gives\nI = {1:.4f}, and when calculated numerically, gives I = {2:.4f}.\nThese results differ by {2:.3f}%.".format(N, I, trueI, percentdiff))
 
 def task3():
     print()
