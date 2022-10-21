@@ -24,7 +24,22 @@ def task2():
     print("With a ransom sample of size {0:d}, the integral evaluated using Monte Carlo methods gives\nI = {1:.4f}, and when calculated numerically, gives I = {2:.4f}.\nThese results differ by {2:.3f}%.".format(N, I, trueI, percentdiff))
 
 def task3():
-    print()
+    a, b = 5, 10 # Inner and outer radii of the torus in cm
+    # Generate a random collection of 3D coordinates, within an appropriate sized volume
+    N = 100000
+    xcoords = -b + 2*b*np.random.random_sample(N)
+    ycoords = -b + 2*b*np.random.random_sample(N)
+    zcoords = -(b-a)/2 + (b-a)*np.random.random_sample(N)
+    incount = 0
+    for i in range(N):
+        x, y, z = xcoords[i], ycoords[i], zcoords[i]
+        if (np.sqrt(x**2+y**2) - (b+a)/2)**2 + z**2 < ((b-a)/2)**2:
+            incount += 1
+    boxV = 2*b * 2*b * (b-a)
+    torusV = boxV * incount/N
+    print("The volume of a torus with inner radius {0:.1f}cm and outer radius {1:.1f}cm was found to be approximately {2:.2f}cm^3 by Monte Carlo methods.".format(a,b,torusV))
+    calcV = np.pi**2/4*(b+a)*(b-a)**2
+    print("The true volume is {:.2f}cm^3.".format(calcV))
 
 def task4():
     print()
