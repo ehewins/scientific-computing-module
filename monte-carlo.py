@@ -42,7 +42,36 @@ def task3():
     print("The true volume is {:.2f}cm^3.".format(calcV))
 
 def task4():
-    print()
+    walks = 1000 # Number of random walks averaged over
+    steps = 500 # Number of steps per walk
+    xhist = np.zeros(walks)
+    yhist = np.zeros(walks)
+    rms_rhist = np.array([])
+    for i in range(steps):
+        for w in range(walks):
+            x = xhist[w]
+            y = yhist[w]
+            match np.random.choice(["up", "down", "left", "right"]):
+                case "up":
+                    y += 1
+                case "down":
+                    y -= 1
+                case "left":
+                    x -= 1
+                case "right":
+                    x += 1
+            xhist[w] = x
+            yhist[w] = y
+        rms_r = np.sqrt(np.mean(xhist**2 + yhist**2))
+        rms_rhist = np.append(rms_rhist, rms_r)
+        print("Running: {:.1f}% complete".format(100*i/steps))
+
+    plt.title("RMS distance from origin of {:d} random walks.".format(walks))
+    plt.xlabel("Step number")
+    plt.ylabel("RMS distance from origin")
+    plt.plot(range(steps), rms_rhist)
+    plt.show()
+
 
 if __name__ == "__main__":
     choice = int(input("Would you like to run task 1, 2, 3, or 4?\nChoice: "))
