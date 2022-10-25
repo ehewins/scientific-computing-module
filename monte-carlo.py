@@ -69,7 +69,7 @@ def task4():
     plt.title("RMS distance from origin of {:d} random walks.".format(walks))
     plt.xlabel("Step number")
     plt.ylabel("RMS distance from origin")
-    plt.plot(range(steps), rms_rhist)
+    plt.plot(range(steps)+1, rms_rhist)
     plt.show()
 
 
