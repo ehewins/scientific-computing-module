@@ -55,3 +55,5 @@ The following are suggestions for additional functionality which can be added on
 * Filtering / convolution
 * 2D Fourier transforms
 * Data compression
+
+NOTE: This week I had a lot of my time taken up by one of my other modules, so I didn't spend as much time on this one as I normally like to. As a result, I hadn't managed to add all the features I was hoping to by the time the deadline came around, so the code in signal-processing.py still has some feasome bugs when it comes to the windowing (the bits where you can change the upper and lower limits of the time and frequency) and the inverse fourier transform (which only behaves itself when you don't window the data at all, i.e. when the output is identical to the original singal). If the lower limit and upper limit are set to the very ends of their ranges, the program works fine however. I was considering removing these bits of code, but I think I'll leave them in and aim to go back and fix it at some later stage. Not sure when I'll get time to, but I hope I can.
