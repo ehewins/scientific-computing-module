@@ -12,23 +12,20 @@ start_time = time.time()
 #
 #  You may only change the code between here and the line "end_time=time.time()")
 #
-s = np.zeros(shape=(N,N))
 matchedIndices = np.zeros(N)
-for a in range(N):
-    for b in range(N):
-        distance_vectors = np.abs(pos[:,a] - pos[:,b])
-        s[a,b] = np.sum(np.minimum(distance_vectors, 1-distance_vectors)**2)
-
-s = np.sqrt(s)
-
 for a in range(N):
     mindist = 1e10
     matchedIndices[a] = 0
-    for c in range(N):
-        if a != c:
-            mindist = np.minimum(s[a,c], mindist)
-            if mindist == s[a,c]:
-                matchedIndices[a] = c
+    for b in range(N):
+        dists_vector = np.abs(pos[:,a] - pos[:,b])
+        min_dists = np.minimum(dists_vector, 1-dists_vector)
+        s = np.sum(min_dists**2)
+        if a != b:
+            mindist = np.minimum(s, mindist)
+            if mindist == s:
+                matchedIndices[a] = b
+
+s = np.sqrt(s)
 
 end_time = time.time()
 print('Elapsed time = ', repr(end_time - start_time))
