@@ -16,6 +16,8 @@ s = np.zeros(shape=(N,N))
 matchedIndices = np.zeros(N)
 for a in range(N):                                                           
     print("N = " + str(a) + " done x")                                                   
+    print("N = " + str(a) + " done y")                           
+    print("N = " + str(a) + " done z")                           
     for b in range(N):
         offx = 0.0                                                        
         if pos[0,a] <= 0.25:
@@ -26,9 +28,6 @@ for a in range(N):
                 offx = -1.0
         s[a,b] = s[a,b] + (pos[0,a] - pos[0,b] + offx)**2
 
-for a in range(N):                                                                    
-    print("N = " + str(a) + " done y")                           
-    for b in range(N):
         offy = 0.0                                                        
         if pos[1,a] <= 0.25:
             if pos[1,b] >= 0.75:                       
@@ -38,9 +37,6 @@ for a in range(N):
                 offy = -1.0
         s[a,b] = s[a,b] + (pos[1,a] - pos[1,b] + offy)**2
 
-for a in range(N):                                                                    
-    print("N = " + str(a) + " done z")                           
-    for b in range(N):
         offz = 0.0                                                        
         if pos[2,a] <= 0.25:
             if pos[2,b] >= 0.75:                       
@@ -49,6 +45,7 @@ for a in range(N):
             if pos[2,b] <= 0.25:                                        
                 offz = -1.0
         s[a,b] = s[a,b] + (pos[2,a] - pos[2,b] + offz)**2
+
         s[a,b] = np.sqrt(s[a,b])            
 
 for a in range(N):
