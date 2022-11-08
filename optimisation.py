@@ -16,10 +16,10 @@ s = np.zeros(shape=(N,N))
 matchedIndices = np.zeros(N)
 for a in range(N):
     for b in range(N):
-        for i in range(3):
-            delta = np.abs(pos[i,a] - pos[i,b])
-            s[a,b] = s[a,b] + np.minimum(delta, 1-delta)**2
-        s[a,b] = np.sqrt(s[a,b])
+        distance_vectors = np.abs(pos[:,a] - pos[:,b])
+        s[a,b] = np.sum(np.minimum(distance_vectors, 1-distance_vectors)**2)
+
+s = np.sqrt(s)
 
 for a in range(N):
     mindist = 1e10
