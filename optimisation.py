@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Oct 25 12:00:35 2016
-
-@author: ppzfrp, modified by RJAH
-"""
 # set up random 3-d positions
 #
 import numpy as np
@@ -23,7 +17,6 @@ matchedIndices = np.zeros(N)
 for a in range(N):                                                           
     print("N = " + str(a) + " done x")                                                   
     for b in range(N):
-        s[a,b] = 0.0
         offx = 0.0                                                        
         if pos[0,a] <= 0.25:
             if pos[0,b] >= 0.75:                       
@@ -32,7 +25,7 @@ for a in range(N):
             if pos[0,b] <= 0.25:                                        
                 offx = -1.0
         s[a,b] = s[a,b] + (pos[0,a] - pos[0,b] + offx)**2
-#
+
 for a in range(N):                                                                    
     print("N = " + str(a) + " done y")                           
     for b in range(N):
@@ -44,7 +37,7 @@ for a in range(N):
             if pos[1,b] <= 0.25:                                        
                 offy = -1.0
         s[a,b] = s[a,b] + (pos[1,a] - pos[1,b] + offy)**2
-#
+
 for a in range(N):                                                                    
     print("N = " + str(a) + " done z")                           
     for b in range(N):
@@ -57,7 +50,7 @@ for a in range(N):
                 offz = -1.0
         s[a,b] = s[a,b] + (pos[2,a] - pos[2,b] + offz)**2
         s[a,b] = np.sqrt(s[a,b])            
-#
+
 for a in range(N):
     mindist = 1e10
     matchedIndices[a] = 0
@@ -91,4 +84,3 @@ except OSError as e:
         fid.close()
     else:
         raise
-#
