@@ -15,9 +15,6 @@ start_time = time.time()
 s = np.zeros(shape=(N,N))
 matchedIndices = np.zeros(N)
 for a in range(N):
-    # print("N = " + str(a) + " done x")
-    # print("N = " + str(a) + " done y")
-    # print("N = " + str(a) + " done z")
     for b in range(N):
         for i in range(3):
             offset = 0.0
@@ -28,6 +25,7 @@ for a in range(N):
                 if pos[i,b] <= 0.25:
                     offset = -1.0
             s[a,b] = s[a,b] + (pos[i,a] - pos[i,b] + offset)**2
+        s[a,b] = np.sqrt(s[a,b])
 
 for a in range(N):
     mindist = 1e10
