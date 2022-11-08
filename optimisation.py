@@ -17,14 +17,8 @@ matchedIndices = np.zeros(N)
 for a in range(N):
     for b in range(N):
         for i in range(3):
-            offset = 0.0
-            if pos[i,a] <= 0.25:
-                if pos[i,b] >= 0.75:
-                    offset = 1.0
-            if pos[i,a] >= 0.75:
-                if pos[i,b] <= 0.25:
-                    offset = -1.0
-            s[a,b] = s[a,b] + (pos[i,a] - pos[i,b] + offset)**2
+            delta = np.abs(pos[i,a] - pos[i,b])
+            s[a,b] = s[a,b] + np.minimum(delta, 1-delta)**2
         s[a,b] = np.sqrt(s[a,b])
 
 for a in range(N):
