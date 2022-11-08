@@ -9,44 +9,25 @@ np.random.seed(seed)
 pos = np.random.random((3,N))
 start_time = time.time()
 # deliberately slow code to find nearest neighbours within periodic unit cube
-#                                                                            
-#  You may only change the code between here and the line "end_time=time.time()")   
-#                                                                            
+#
+#  You may only change the code between here and the line "end_time=time.time()")
+#
 s = np.zeros(shape=(N,N))
 matchedIndices = np.zeros(N)
-for a in range(N):                                                           
-    print("N = " + str(a) + " done x")                                                   
-    print("N = " + str(a) + " done y")                           
-    print("N = " + str(a) + " done z")                           
+for a in range(N):
+    # print("N = " + str(a) + " done x")
+    # print("N = " + str(a) + " done y")
+    # print("N = " + str(a) + " done z")
     for b in range(N):
-        offx = 0.0                                                        
-        if pos[0,a] <= 0.25:
-            if pos[0,b] >= 0.75:                       
-                offx = 1.0                          
-        if pos[0,a] >= 0.75:                                          
-            if pos[0,b] <= 0.25:                                        
-                offx = -1.0
-        s[a,b] = s[a,b] + (pos[0,a] - pos[0,b] + offx)**2
-
-        offy = 0.0                                                        
-        if pos[1,a] <= 0.25:
-            if pos[1,b] >= 0.75:                       
-                offy = 1.0                          
-        if pos[1,a] >= 0.75:                                          
-            if pos[1,b] <= 0.25:                                        
-                offy = -1.0
-        s[a,b] = s[a,b] + (pos[1,a] - pos[1,b] + offy)**2
-
-        offz = 0.0                                                        
-        if pos[2,a] <= 0.25:
-            if pos[2,b] >= 0.75:                       
-                offz = 1.0                          
-        if pos[2,a] >= 0.75:                                          
-            if pos[2,b] <= 0.25:                                        
-                offz = -1.0
-        s[a,b] = s[a,b] + (pos[2,a] - pos[2,b] + offz)**2
-
-        s[a,b] = np.sqrt(s[a,b])            
+        for i in range(3):
+            offset = 0.0
+            if pos[i,a] <= 0.25:
+                if pos[i,b] >= 0.75:
+                    offset = 1.0
+            if pos[i,a] >= 0.75:
+                if pos[i,b] <= 0.25:
+                    offset = -1.0
+            s[a,b] = s[a,b] + (pos[i,a] - pos[i,b] + offset)**2
 
 for a in range(N):
     mindist = 1e10
@@ -69,7 +50,7 @@ try:
     fid = open(filename,'rb')
     matchedIndicesOld = np.loadtxt(fid)
     fid.close()
-    if (matchedIndicesOld == matchedIndices).all(): 
+    if (matchedIndicesOld == matchedIndices).all():
         print('Checked match')
     else:
         print('Failed match')
