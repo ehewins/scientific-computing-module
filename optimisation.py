@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Oct 25 12:00:35 2016
+
+@author: ppzfrp, modified by ppyeh5
+"""
 # set up random 3-d positions
 #
 import numpy as np
@@ -8,24 +14,17 @@ seed = 1234
 np.random.seed(seed)
 pos = np.random.random((3,N))
 start_time = time.time()
-# deliberately slow code to find nearest neighbours within periodic unit cube
+# deliberately slow code to find nearest neighbours within periodic unit cube - It's not slow now that I've finished with it!
 #
 #  You may only change the code between here and the line "end_time=time.time()")
 #
 matchedIndices = np.zeros(N)
 for a in range(N):
-    mindist = 1e10
-    matchedIndices[a] = 0
-    for b in range(N):
-        dists_vector = np.abs(pos[:,a] - pos[:,b])
-        min_dists = np.minimum(dists_vector, 1-dists_vector)
-        s = np.sum(min_dists**2)
-        if a != b:
-            mindist = np.minimum(s, mindist)
-            if mindist == s:
-                matchedIndices[a] = b
-
-s = np.sqrt(s)
+    dists_array = np.abs(pos - np.reshape(pos[:,a],(3,1))) # Creates a (3,N) array of the distances between the coordinate given by column a, and all the other columns.
+    min_dists = np.minimum(dists_array, 1-dists_array) # Finds the actual sortest distances, given the periodic boundaries of the unit cube.
+    s = np.sum(min_dists**2, axis=0) # Produces an array of the square magnitudes of the displacement beteen a and all other points by summing the squares of each column.
+    s[a] = 1 # Sets the distance from point a to itself to one, so that it won't get counted as its own nearest neighbor.
+    matchedIndices[a] = np.argmin(s) # Saves the index of point a's nearest neighbor.
 
 end_time = time.time()
 print('Elapsed time = ', repr(end_time - start_time))
