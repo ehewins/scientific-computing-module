@@ -9,7 +9,7 @@ Created on Tue Oct 25 12:00:35 2016
 import numpy as np
 import time
 import errno
-N = 100
+N = 20000
 seed = 1234
 np.random.seed(seed)
 pos = np.random.random((3,N))
