@@ -40,6 +40,8 @@ The third task we've been set is to solve 3 ordinary differential equation probl
    Where V₀ is a constant. The wavefunction satisfies the time-independent Schrödinger equation (-ℏ²/2m)(d²φ/dx²) + V(x)φ = Eφ.
    If V₀ = 10, find the ground state energy (in terms of ℏ²/2ma²) and normalised ground state wavefunction using the shooting method. As the potential is infinite for x<=0, the wavefunction will be zero for all negative x.
 
+The mark received for Task 3 was 5 out of 6 marks. No further feedback has been given unfortunately.
+
 ## Task 4:
 
 The fourth task is all about signal processing using Fourier methods. There's also a focus on GUIs again, which we'll be using to change various parameters such as the signal frequency and sampling rate so their effect on the power spectrum can be observed in real time. The GUI should generate a signal and plot that signal against time. First introduce a slider that controls the frequency of a sinusoidal signal, and a close button which closes the GUI. There should also be labels on the figure and slider to indicate the units. Calculate the Fourier transform of the signal, and use this to plot a power spectrum that updates when slider is used to change the frequency.
