@@ -1,15 +1,18 @@
 # Scientific Computing Third Year Module
 
 This repo is a log of the code I wrote for the scientific computing module I took during the autumn term of the third year of my physics degree.
+There are two main components of the module, a series of 5 week-long tasks, and a several week long project (which counts for 80% of the module mark). In my case this project is a Gravitational N-body Modelling
 
 I can all but grantee that when I look back over the code in years to come I'll be amazed by how inefficiently I did everything, but I think it's valuable to have around as a record of my development as a programmer.
 
-## Task 1: Lunar Lander Game
+## The 5 Week-long Tasks:
+
+### Task 1: Lunar Lander Game
 
 The first task we've been given is a bit of a coding refresh exercise, focused on using matplotlib's widgets module to make a GUI as well as animating a figure.
 The idea is simple: you've got a lunar lander falling towards the surface of the moon, which you want to slow down to a safe landing speed. To make it more of a challenge, there should be a limited fuel supply which once depleted disables the thrusters.
 
-## Task 2: Monte Carlo / Stochastic Methods
+### Task 2: Monte Carlo / Stochastic Methods
 
 The second task we've been given covers a series of Stochastic methods, using random numbers to solve physics problems. There are 4 exercises:
 
@@ -21,7 +24,7 @@ The second task we've been given covers a series of Stochastic methods, using ra
 
 4. Write a program to simulate a random walker in two-dimensions. At each time step the walker can move in one of the four possible directions (up, down, left, right) with equal probability. By considering the trajectories of many walkers, determine how the root mean square distance from the origin increases with time.
 
-## Task 3: Solving Differential Equations / Ordinary Differential Equations
+### Task 3: Solving Differential Equations / Ordinary Differential Equations
 
 The third task we've been set is to solve 3 ordinary differential equation problems using numerical methods. The third of these three sub-tasks is assessed content, so I'll be putting extra work into that one. The 3 exercises are as follows:
 
@@ -42,7 +45,7 @@ The third task we've been set is to solve 3 ordinary differential equation probl
 
 The mark received for Task 3 was 5 out of 6 marks. No further feedback has been given unfortunately.
 
-## Task 4: Signal Processing
+### Task 4: Signal Processing
 
 The fourth task is all about signal processing using Fourier methods. There's also a focus on GUIs again, which we'll be using to change various parameters such as the signal frequency and sampling rate so their effect on the power spectrum can be observed in real time. The GUI should generate a signal and plot that signal against time. First introduce a slider that controls the frequency of a sinusoidal signal, and a close button which closes the GUI. There should also be labels on the figure and slider to indicate the units. Calculate the Fourier transform of the signal, and use this to plot a power spectrum that updates when slider is used to change the frequency.
 
@@ -60,6 +63,28 @@ The following are suggestions for additional functionality which can be added on
 
 NOTE: This week I had a lot of my time taken up by one of my other modules, so I didn't spend as much time on this one as I normally like to. As a result, I hadn't managed to add all the features I was hoping to by the time the deadline came around, so the code in signal-processing.py still has some fearsome bugs when it comes to the windowing (the bits where you can change the upper and lower limits of the time and frequency) and the inverse Fourier transform (which only behaves itself when you don't window the data at all, i.e. when the output is identical to the original signal). If the lower limit and upper limit are set to the very ends of their ranges, the program works fine however. I was considering removing these bits of code, but I think I'll leave them in and aim to go back and fix it at some later stage. Not sure when I'll get time to, but I hope I can.
 
-## Task 5: Optimisation
+### Task 5: Optimisation
 
-This week's tasks are themed around optimising code, and learning best practices for writing fast. We'll be given a badly written program (neighbour.py) which we're tasked with improving by only making changes between the lines of code beginning with "start_time" and "end_time". The goal is to optimise the code to the point where it runs in less than 12 seconds for N=20000 and seed=1234 on the computers in the lab. (If I can get it to execute in less than 12 seconds on this old laptop, then it's probably safe to assume it'll run faster than that on the desktops in the lab). The file `optimisation.py` will start out as a copy of `neighbour.py`, and you should be able to track the changes I make to it through the git log.
+This week's tasks are themed around optimising code, and learning best practices for writing fast. We'll be given a badly written program (called neighbour.py) which we're tasked with improving by only making changes between the lines of code beginning with "start_time" and "end_time". The goal is to optimise the code to the point where it runs in less than 12 seconds for N=20000 and seed=1234 on the computers in the lab. (If I can get it to execute in less than 12 seconds on this old laptop, then it's probably safe to assume it'll run faster than that on the desktops in the lab). The file `optimisation.py` will start out as a copy of neighbour.py, and you should be able to track the changes I make to it through the git log.
+
+## Project: Gravitational N-body Modelling
+
+The project I've chosen to work on is the N-body simulation, for which I shall solve by direct summation the gravitational acceleration between each body/particle i and all other bodies/particles j, in order to determine the evolution of the N-body system through time.
+
+(d²rᵢ)/(dt²) = ∑ᴺⱼ₌₁ (Gmⱼrᵢⱼ)/(|rᵢⱼ|³)
+
+Where rᵢ is the position vector of the object i, rᵢⱼ is the vector from i's position to j's position, i.e. rᵢⱼ = rⱼ-rᵢ, mⱼ is the mass of object j, G is the gravitational constant, t is time and N is the total number of bodies/objects/particles in the simulation.
+This is a second order differential equation, which will need to be split into a pair of coupled first order differential equations before they are computed by an appropriate ODE solving python module.
+
+### Project Progression Guidelines:
+
+1. Begin by simulating 2 bodies in 2 dimensions and check that the results lead to simple, closed, elliptical orbits.
+2. Check that energy is conserved by the simulation. With the default tolerance settings of scipy's odeint solver, you should find that |ΔE| = (|E(t)-E(0)|)/(E(0)) < 10⁻⁵.
+3. Extend this 2D code to simulate three bodies, and compare the results with some of the following analytically solvable cases:
+    * Two light bodies in orbit around a much more massive one. Should reproduce simple elliptical orbits.
+    * Two heavy bodies in close orbit with a light body orbiting them both. Can investigate the behaviour of the light body as a function of its position relative to the heavy bodies, as well as identify the Lagrangian points.
+    * Solve Burrau's problem, see the paper "Complete Solution of a General Problem of Three Bodies" by Szebehely and Peters, DOI: 10.1086/110355 .
+4. Extend the code to three dimensions and many bodies. Try out some of the following more advanced simulations:
+    * Study the stability of known exoplanetary systems, looking up the relevant planetary data to do so.
+    * Study the stability of the solar system under close encounters with external objects (such as rogue stars or planets passing through the solar system), or the effect of an additional large planet.
+    * Study the evolution of a star cluster.
