@@ -63,9 +63,13 @@ The following are suggestions for additional functionality which can be added on
 
 NOTE: This week I had a lot of my time taken up by one of my other modules, so I didn't spend as much time on this one as I normally like to. As a result, I hadn't managed to add all the features I was hoping to by the time the deadline came around, so the code in signal-processing.py still has some fearsome bugs when it comes to the windowing (the bits where you can change the upper and lower limits of the time and frequency) and the inverse Fourier transform (which only behaves itself when you don't window the data at all, i.e. when the output is identical to the original signal). If the lower limit and upper limit are set to the very ends of their ranges, the program works fine however. I was considering removing these bits of code, but I think I'll leave them in and aim to go back and fix it at some later stage. Not sure when I'll get time to, but I hope I can.
 
+The mark received for Task 4 was 6 out of 7 marks. No further feedback was given.
+
 ### Task 5: Optimisation
 
 This week's tasks are themed around optimising code, and learning best practices for writing fast. We'll be given a badly written program (called neighbour.py) which we're tasked with improving by only making changes between the lines of code beginning with "start_time" and "end_time". The goal is to optimise the code to the point where it runs in less than 12 seconds for N=20000 and seed=1234 on the computers in the lab. (If I can get it to execute in less than 12 seconds on this old laptop, then it's probably safe to assume it'll run faster than that on the desktops in the lab). The file `optimisation.py` will start out as a copy of neighbour.py, and you should be able to track the changes I make to it through the git log.
+
+The mark received for Task 5 was 7 out of 7 marks. Full marks!
 
 ## Project: Gravitational N-body Modelling
 
