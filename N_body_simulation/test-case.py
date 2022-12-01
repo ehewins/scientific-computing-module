@@ -8,6 +8,7 @@ from scipy.integrate import odeint
 
 def solve_func(X,t,m1,m2):
     G = 6.6748015e-11 # G is in SI units, so all input parameters should also be in SI units.
+    # G = 8.868e24 # G in astronomical units per solar mass kilometers squared per second squared
     x1,x2,y1,y2,vx1,vx2,vy1,vy2 = X[0],X[1],X[2],X[3],X[4],X[5],X[6],X[7]
     distance = np.sqrt((x2-x1)**2+(y2-y1)**2)
     # The 8 differential equations which needed solving
@@ -25,12 +26,12 @@ x1, y1 = -0.5 * 1.496e11, 0 # init. position components of bodies, in SI units
 x2, y2 = 0.5 * 1.496e11, 0
 vx1, vy1 = 0, -15 * 1e3 # init. velocity components of bodies, in SI units
 vx2, vy2 = 0, 15 * 1e3
-m1 = 1.989e30 # masses of the bodies, in SI units
-m2 = 1.989e30
+m1, m2 = 1.989e30, 1.989e30 # masses of the bodies, in SI units
 t_tot = 5 * 31557600 # total time converted from years to seconds
 dt = 24*60*60 # size of the timestep
 
 t_vals = np.arange(0,t_tot+dt,dt) # Array of times
+# print(solve_func((x1,x2,y1,y2,vx1,vx2,vy1,vy2),t_vals,m1,m2))
 solutions = odeint(solve_func, (x1,x2,y1,y2,vx1,vx2,vy1,vy2), t_vals, args=(m1,m2)) # Call to odeint to slove the equations
 x1_vals = solutions[:,0] # Extracting the solutions for the positions of the bodies across time
 x2_vals = solutions[:,1]
