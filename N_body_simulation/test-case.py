@@ -31,7 +31,6 @@ t_tot = 5 * 31557600 # total time converted from years to seconds
 dt = 24*60*60 # size of the timestep
 
 t_vals = np.arange(0,t_tot+dt,dt) # Array of times
-# print(solve_func((x1,x2,y1,y2,vx1,vx2,vy1,vy2),t_vals,m1,m2))
 solutions = odeint(solve_func, (x1,x2,y1,y2,vx1,vx2,vy1,vy2), t_vals, args=(m1,m2)) # Call to odeint to slove the equations
 x1_vals = solutions[:,0] # Extracting the solutions for the positions of the bodies across time
 x2_vals = solutions[:,1]
