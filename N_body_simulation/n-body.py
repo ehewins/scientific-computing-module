@@ -6,41 +6,43 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 from matplotlib.cm import tab20
 
-# Input variables for Burrau's problem
-G = 1 # Value of the gravitational constant
-pos = np.array([[1,-2,1],[3,-1,-1]]) # initial positions of the three bodies
-vel = np.array([[0,0,0],[0,0,0]]) # initial velocities of the three bodies
-m = np.array([3,4,5]) # masses of the three bodies
-num_dimensions = pos.shape[0]
-num_bodies = pos.shape[1]
-t_tot = 70 # total time to run the simulation for
-dt = 0.001 # time step between outputs calculated by odeint
-t_vals = np.arange(0,t_tot+dt,dt) # Array time values to calcuclate the state of the system at.
-plot_llim = 50
-plot_ulim = 60
-in_range = (t_vals >= plot_llim) & (t_vals <= plot_ulim)
-rtol = 1.0001e-24 # Tolerance settings used for odeint. Default values are 1.49012e-8
-# rtol = 9.96e-25 # Tolerance settings used for odeint. Default values are 1.49012e-8
-# atol = 8.112328249909203e-11
-# atol = 8.112328249909202537e-11
-atol = 8.114e-11
-
-# # Input variables for a 3 dimensional four body system
-# G = 1
-# m = np.array([1000,1,1,1]) # The central body should have a significantly greater mass than the other bodies in the system
-# pos = np.array([[0,10,0,0],[0,0,20,0],[0,0,0,30]])
-# # For this case, the velocity values are calculated based on the positions so as to give stable orbits
-# vel = np.array([[0,0,0,np.sqrt(G*m[0]/pos[2,3])],[0,np.sqrt(G*m[0]/pos[0,1]),0,0],[0,0,np.sqrt(G*m[0]/pos[1,2]),0]])
+# # Input variables for Burrau's problem
+# G = 1 # Value of the gravitational constant
+# pos = np.array([[1,-2,1],[3,-1,-1]]) # initial positions of the three bodies
+# vel = np.array([[0,0,0],[0,0,0]]) # initial velocities of the three bodies
+# m = np.array([3,4,5]) # masses of the three bodies
 # num_dimensions = pos.shape[0]
 # num_bodies = pos.shape[1]
-# t_tot = 50
-# dt = 0.001
-# t_vals = np.arange(0,t_tot+dt,dt)
+# t_tot = 10 # total time to run the simulation for
+# dt = 0.001 # time step between outputs calculated by odeint
+# t_vals = np.arange(0,t_tot+dt,dt) # Array time values to calcuclate the state of the system at.
 # plot_llim = 0
-# plot_ulim = t_tot
+# plot_ulim = 10
 # in_range = (t_vals >= plot_llim) & (t_vals <= plot_ulim)
-# rtol = 1.49012e-8
-# atol = 1.49012e-8
+# rtol = 1.0001e-24 # Tolerance settings used for odeint. Default values are 1.49012e-8
+# # rtol = 1e-24 # Tolerance settings used for odeint. Default values are 1.49012e-8
+# # rtol = 9.96e-25 # Tolerance settings used for odeint. Default values are 1.49012e-8
+# # atol = 8.112328249909203e-11
+# # atol = 8.112328249909202537e-11
+# atol = 8.114e-11
+# # atol = 8.511380382023724e-11
+
+# Input variables for a 3 dimensional four body system
+G = 1
+m = np.array([1000,1,1,1]) # The central body should have a significantly greater mass than the other bodies in the system
+pos = np.array([[0,10,0,0],[0,0,20,0],[0,0,0,30]])
+# For this case, the velocity values are calculated based on the positions so as to give stable orbits
+vel = np.array([[0,0,0,np.sqrt(G*m[0]/pos[2,3])],[0,np.sqrt(G*m[0]/pos[0,1]),0,0],[0,0,np.sqrt(G*m[0]/pos[1,2]),0]])
+num_dimensions = pos.shape[0]
+num_bodies = pos.shape[1]
+t_tot = 50
+dt = 0.001
+t_vals = np.arange(0,t_tot+dt,dt)
+plot_llim = 0
+plot_ulim = t_tot
+in_range = (t_vals >= plot_llim) & (t_vals <= plot_ulim)
+rtol = 1.49012e-8
+atol = 1.49012e-8
 
 # # Input variables for the 2-body test case
 # G = 6.6748015e-11
@@ -89,7 +91,7 @@ def solve_func(X, t):
 start_time = time.time()
 solutions = odeint(solve_func, np.concatenate((pos,vel),axis=None), t_vals, rtol=rtol, atol=atol)
 end_time = time.time()
-print("Solivng the differential equations took",end_time-start_time,"seconds")
+print("Solving the differential equations took",end_time-start_time,"seconds")
 
 fig = plt.figure(1)
 if num_dimensions == 2:
@@ -118,14 +120,49 @@ plt.figure(2)
 plt.xlabel("$t$")
 plt.ylabel("$\Delta E$")
 plt.plot(t_vals, Delta_E)
+print("Calculated with a relative error range of",np.abs(np.max(Delta_E)-np.min(Delta_E)))
+
+def animate2d(frame):
+    body_index = 10*frame
+    tail_length = 250
+    body_size = 150
+    tail_size = 0.2
+    if body_index <= tail_length:
+        tail_end = 0
+        tail_length = body_index
+    else:
+        tail_end = body_index - tail_length
+    bodies.set_offsets(solutions[tail_end:body_index+1,:2*num_bodies].reshape((num_bodies*(tail_length+1),2), order='F'))
+    bodies.set_sizes(np.append(tail_size*np.ones(tail_length), [body_size]))
+    bodies.set_array(np.repeat(np.arange(num_bodies), tail_length+1))
+
+def animate3d(frame):
+    body_index = 10*frame
+    tail_length = 800 # number of datapoints to include in the "tail" which trails behind the main body.
+    body_size = 150
+    tail_size = 0.2
+    if body_index <= tail_length:
+        tail_end = 0
+        tail_length = body_index
+    else:
+        tail_end = body_index - tail_length
+    bodies._offsets3d = np.array([
+                                     solutions[tail_end:body_index+1,0:num_bodies].flatten(),
+                                     solutions[tail_end:body_index+1,num_bodies:2*num_bodies].flatten(),
+                                     solutions[tail_end:body_index+1,2*num_bodies:3*num_bodies].flatten()
+                                 ])
+    bodies.set_sizes(np.repeat(np.append(tail_size*np.ones(tail_length), [body_size]), num_bodies))
+    bodies.set_array(np.tile(np.arange(num_bodies), tail_length+1))
 
 anifig = plt.figure(3)
 if num_dimensions == 2:
     aniax = anifig.add_subplot()
     bodies = aniax.scatter([], [], c=[], marker='.', cmap='tab20')
+    anim = FuncAnimation(anifig, animate2d, frames=t_vals.size//10, interval=20)
 elif num_dimensions == 3:
     aniax = anifig.add_subplot(projection='3d')
-    bodies = aniax.scatter(solutions[0,0:num_bodies], solutions[0,num_bodies:2*num_bodies], solutions[0,2*num_bodies:3*num_bodies], c=np.arange(num_bodies), marker='.', cmap='tab20')
+    bodies = aniax.scatter([], [], [], c=[], marker='.', cmap='tab20')
+    anim = FuncAnimation(anifig, animate3d, frames=t_vals.size//10, interval=1e-5)
     aniax.set_zlim(1.05*np.min(solutions[:,2*num_bodies:3*num_bodies]), 1.05*np.max(solutions[:,2*num_bodies:3*num_bodies]))
     aniax.set_zlabel("$z$ coordinate")
 else:
@@ -135,25 +172,5 @@ aniax.set_xlim(1.05*np.min(solutions[:,0:num_bodies]), 1.05*np.max(solutions[:,0
 aniax.set_ylim(1.05*np.min(solutions[:,num_bodies:2*num_bodies]), 1.05*np.max(solutions[:,num_bodies:2*num_bodies]))
 aniax.set_xlabel("$x$ coordinate")
 aniax.set_ylabel("$y$ coordinate")
-
-def anim_func(frame):
-    index = 10*frame
-    tail_length = 10*25
-    body_size = 150
-    tail_size = 0.5
-    if index == 0:
-        bodies.set_offsets(solutions[0,:num_dimensions*num_bodies].reshape((num_bodies,num_dimensions), order='F'))
-        bodies.set_sizes([body_size])
-        bodies.set_array(np.arange(num_bodies))
-    elif tail_length > index:
-        bodies.set_offsets(solutions[0:index,:num_dimensions*num_bodies].reshape((num_bodies*index,num_dimensions), order='F'))
-        bodies.set_sizes(np.append(tail_size*np.ones(index-1), [body_size]))
-        bodies.set_array(np.repeat(np.arange(num_bodies), index))
-    else:
-        bodies.set_offsets(solutions[index-tail_length:index,:num_dimensions*num_bodies].reshape((num_bodies*tail_length,num_dimensions), order='F'))
-        bodies.set_sizes(np.append(tail_size*np.ones(tail_length-1), [body_size]))
-        bodies.set_array(np.repeat(np.arange(num_bodies), tail_length))
-
-anim = FuncAnimation(anifig, anim_func, frames=t_vals.size//10, interval=10)
 
 plt.show()
