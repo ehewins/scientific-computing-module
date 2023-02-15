@@ -80,6 +80,8 @@ The project I've chosen to work on is the N-body simulation, for which I shall s
 Where rᵢ is the position vector of the object i, rᵢⱼ is the vector from i's position to j's position, i.e. rᵢⱼ = rⱼ-rᵢ, mⱼ is the mass of object j, G is the gravitational constant, t is time and N is the total number of bodies/objects/particles in the simulation.
 This is a second order differential equation, which will need to be split into a pair of coupled first order differential equations before they are computed by an appropriate ODE solving python module.
 
+The directory N_body_simulation contains all the files I submitted for grading. The README and pdf of figures were requirements for the submission.
+
 ### Project Progression Guidelines:
 
 1. Begin by simulating 2 bodies in 2 dimensions and check that the results lead to simple, closed, elliptical orbits.
