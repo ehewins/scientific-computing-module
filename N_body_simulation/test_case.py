@@ -39,20 +39,20 @@ y2_vals = solutions[:,3]
 
 # Displaying a figure to prove the test case was successful.
 fig = plt.figure(1,figsize=(14,5))
-plt.subplots_adjust(wspace=0.25)
+plt.subplots_adjust(wspace=0.20)
 ax1 = fig.add_subplot(1,2,1)
 ax2 = fig.add_subplot(1,2,2)
 ax1.plot(x1_vals/1.496e11,y1_vals/1.496e11,'r-',label='Body 1')
 ax1.plot(x2_vals/1.496e11,y2_vals/1.496e11,'k-',label='Body 2')
 ax1.legend(loc='upper left')
-ax1.set_xlabel("$x$ [AU]")
-ax1.set_ylabel("$y$ [AU]")
+ax1.set_xlabel("$x$ [AU]",fontsize=12)
+ax1.set_ylabel("$y$ [AU]",fontsize=12)
 ax1.set_xlim(-.6,.6)
 ax1.set_ylim(-.4,.4)
 ax2.plot(t_vals/31557600, x1_vals/1.496e11, 'r-')
 ax2.plot(t_vals/31557600, x2_vals/1.496e11, 'k-')
-ax2.set_xlabel("$t$ [yr]")
-ax2.set_ylabel("$x$ [AU]")
+ax2.set_xlabel("$t$ [yr]",fontsize=12)
+ax2.set_ylabel("$x$ [AU]",fontsize=12)
 
 # Calculating the relative change in total energy across time, and plotting it to ensure energy is conserved.
 G = 6.6748015e-11
@@ -63,7 +63,6 @@ Delta_E = (total_energy - total_energy[0]) / total_energy[0]
 plt.figure(2)
 plt.plot(t_vals/31557600,Delta_E)
 plt.xlabel("$t$ [yr]")
-plt.ylabel("$\Delta E$")
-plt.title("Relative change in the total energy with time.\nIf $|\Delta E|<10^{-5}$, the code conserves energy.")
+plt.ylabel("Relative change in total energy $\Delta E$")
 
 plt.show()

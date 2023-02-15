@@ -1,0 +1,34 @@
+README for my N-body Gravitational Simulation
+---------------------------------------------
+
+Modules used:
+-------------
+-> time
+-> numpy
+-> matplotlib.pyplot
+-> scipy.integrate
+-> mpl_toolkits.mplot3d
+-> matplotlib.animation
+-> matplotlib.cm
+
+Python version: 3.10.8
+Numpy version: 1.23.5-1
+Matplotlib version: 3.6.1-1
+Scipy version: 1.9.3-1
+Platform: Linux (no extra work required to get scripts running)
+
+How to use the programs:
+------------------------
+Most of the scripts in this project are largely interacted with by commenting out and un-commenting blocks of code, or specific lines. If a block is intended to be used this way, it will have comments explaining what it does. There are also several system parameters which the user is encouraged to change according to their needs, generally these are found in blocks with other related parameters. Again, the comments should make it clear what each parameter does.
+solar_system.py is interacted with exclusively via this commenting and parameter editing method, aside from when the user is asked whether they want to produce an animation.
+n_body.py allows for more user interaction than the other scripts, because it simulates many different systems. The user is asked to enter a number when the run the script, which selects which simulation to run.
+
+Advice when running the programs:
+---------------------------------
+Most of the simulations available in n_body.py execute within a second or two, but more complex problems such as Burrau's problem, or solar_system.py and optimising_burraus_problem.py take significantly longer. There is no real shortcut to speeding up optimising_burraus_problem.py, aside from changing the line
+
+`log_atol = np.arange(-10.2,-9.8,0.01)`
+
+to have a smaller range or larger step. solar_system.py can be sped up however, by only simulations particular bodies of interest. If there are bodies you don't need, make sure their indices are given in the bodies_to_omit array (examples on line 62, 63 & 64).
+
+I would advise against generating animations if the outer solar system is being simulated at all during solar_system.py, as these animations run very slowly indeed. It's good fun watching animations of the inner solar system however, and I can also attest that watching long simulations of Burrau's problem play out in the animation window is also very satisfying.
